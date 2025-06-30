@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-
-
+import { useTheme } from '../context/ThemeContext';
 
 const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
+    const { theme } = useTheme();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -38,39 +38,67 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/20  backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className={`rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto transition-colors ${
+                theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+            }`}>
+                <h2 className={`text-2xl font-bold mb-6 transition-colors ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-800'
+                }`}>
                     {task ? 'Edit Task' : 'Create New Task'}
                 </h2>
 
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                        <label className={`block text-sm font-medium mb-2 transition-colors ${
+                            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                        }`}>
+                            Title
+                        </label>
                         <input
                             type="text"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors ${
+                                theme === 'dark' 
+                                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                                    : 'bg-white border-gray-300 text-gray-900'
+                            }`}
                             required
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <label className={`block text-sm font-medium mb-2 transition-colors ${
+                            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                        }`}>
+                            Description
+                        </label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 h-24 resize-none"
+                            className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 h-24 resize-none transition-colors ${
+                                theme === 'dark' 
+                                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                                    : 'bg-white border-gray-300 text-gray-900'
+                            }`}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                        <label className={`block text-sm font-medium mb-2 transition-colors ${
+                            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                        }`}>
+                            Priority
+                        </label>
                         <select
                             value={formData.priority}
                             onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors ${
+                                theme === 'dark' 
+                                    ? 'bg-gray-700 border-gray-600 text-white' 
+                                    : 'bg-white border-gray-300 text-gray-900'
+                            }`}
                         >
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
@@ -79,12 +107,20 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                        <label className={`block text-sm font-medium mb-2 transition-colors ${
+                            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                        }`}>
+                            Due Date
+                        </label>
                         <input
                             type="date"
                             value={formData.dueDate}
                             onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors ${
+                                theme === 'dark' 
+                                    ? 'bg-gray-700 border-gray-600 text-white' 
+                                    : 'bg-white border-gray-300 text-gray-900'
+                            }`}
                         />
                     </div>
 
@@ -97,7 +133,9 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
                                 onChange={(e) => setFormData({ ...formData, completed: e.target.checked })}
                                 className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
                             />
-                            <label htmlFor="completed" className="text-sm font-medium text-gray-700">
+                            <label htmlFor="completed" className={`text-sm font-medium transition-colors ${
+                                theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                            }`}>
                                 Mark as completed
                             </label>
                         </div>
@@ -107,7 +145,11 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                            className={`flex-1 py-3 border rounded-xl font-semibold transition-colors ${
+                                theme === 'dark' 
+                                    ? 'border-gray-600 text-gray-200 hover:bg-gray-700' 
+                                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                            }`}
                         >
                             Cancel
                         </button>

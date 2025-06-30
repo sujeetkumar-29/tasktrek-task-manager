@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import api from '../context/AppContext'; 
 import AuthForm from './AuthForm'; 
 import Dashboard from './Dashboard'; 
+import ThemeToggle from './ThemeToggle';
+
 
 
 
@@ -61,6 +63,7 @@ const TaskManagerApp = () => {
 
   return (
     <div>
+      <ThemeToggle />
       <AuthForm 
         isLogin={isLogin} 
         onSubmit={handleAuth} 

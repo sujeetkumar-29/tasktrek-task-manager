@@ -1,12 +1,12 @@
-
-
-
 import TaskManagerApp from './components/TaskManager'
+import { ThemeProvider } from './context/ThemeContext';
 
 const App = () => {
   return (
-    <div >
-      <TaskManagerApp />
+    <div className="app">
+      <ThemeProvider>
+        <TaskManagerApp />
+      </ThemeProvider>
     </div>
   )
 }

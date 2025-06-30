@@ -3,7 +3,8 @@ import { LogOut, Plus, Search } from 'lucide-react';
 import TaskCard from './TaskCard'; 
 import TaskModal from './TaskModal'; 
 import api from '../context/AppContext'; 
-
+import { useTheme } from '../context/ThemeContext';
+import ThemeToggle from './ThemeToggle';
 
 const Dashboard = ({ user, token, onLogout }) => {
   const [tasks, setTasks] = useState([]);
@@ -14,6 +15,8 @@ const Dashboard = ({ user, token, onLogout }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPriority, setFilterPriority] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     fetchTasks();
@@ -104,23 +107,39 @@ const Dashboard = ({ user, token, onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className={`min-h-screen transition-all duration-300 ${
+      theme === 'dark' 
+        ? 'bg-gradient-to-br from-gray-900 to-gray-800' 
+        : 'bg-gradient-to-br from-blue-50 to-indigo-100'
+    }`}>
+      {/* Theme Toggle */}
+      <ThemeToggle />
+      
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-lg border-b border-white/20 sticky top-0 z-40">
+      <header className={`backdrop-blur-lg border-b sticky top-0 z-40 transition-all duration-300 ${
+        theme === 'dark' 
+          ? 'bg-gray-800/80 border-gray-700' 
+          : 'bg-white/80 border-white/20'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 TaskTrek
               </h1>
-              <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
+              <div className={`hidden sm:flex items-center space-x-2 text-sm ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 <span>Welcome back, {user?.userData?.name}</span>
-               
               </div>
             </div>
             <button
               onClick={onLogout}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                theme === 'dark' 
+                  ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+              }`}
             >
               <LogOut size={18} />
               <span>Logout</span>
@@ -132,43 +151,75 @@ const Dashboard = ({ user, token, onLogout }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-            <div className="text-3xl font-bold text-gray-800">{stats.total}</div>
-            <div className="text-gray-600">Total Tasks</div>
+          <div className={`backdrop-blur-lg rounded-2xl p-6 border transition-all duration-300 ${
+            theme === 'dark' 
+              ? 'bg-gray-800/60 border-gray-700' 
+              : 'bg-white/60 border-white/20'
+          }`}>
+            <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+              {stats.total}
+            </div>
+            <div className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>Total Tasks</div>
           </div>
-          <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className={`backdrop-blur-lg rounded-2xl p-6 border transition-all duration-300 ${
+            theme === 'dark' 
+              ? 'bg-gray-800/60 border-gray-700' 
+              : 'bg-white/60 border-white/20'
+          }`}>
             <div className="text-3xl font-bold text-green-600">{stats.completed}</div>
-            <div className="text-gray-600">Completed</div>
+            <div className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>Completed</div>
           </div>
-          <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className={`backdrop-blur-lg rounded-2xl p-6 border transition-all duration-300 ${
+            theme === 'dark' 
+              ? 'bg-gray-800/60 border-gray-700' 
+              : 'bg-white/60 border-white/20'
+          }`}>
             <div className="text-3xl font-bold text-orange-600">{stats.pending}</div>
-            <div className="text-gray-600">Pending</div>
+            <div className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>Pending</div>
           </div>
-          <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className={`backdrop-blur-lg rounded-2xl p-6 border transition-all duration-300 ${
+            theme === 'dark' 
+              ? 'bg-gray-800/60 border-gray-700' 
+              : 'bg-white/60 border-white/20'
+          }`}>
             <div className="text-3xl font-bold text-red-600">{stats.high}</div>
-            <div className="text-gray-600">High Priority</div>
+            <div className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>High Priority</div>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/20">
+        <div className={`backdrop-blur-lg rounded-2xl p-6 mb-8 border transition-all duration-300 ${
+          theme === 'dark' 
+            ? 'bg-gray-800/60 border-gray-700' 
+            : 'bg-white/60 border-white/20'
+        }`}>
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
+                  theme === 'dark' ? 'text-gray-400' : 'text-gray-400'
+                }`} size={18} />
                 <input
                   type="text"
                   placeholder="Search tasks..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-64"
+                  className={`pl-10 pr-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-64 transition-colors ${
+                    theme === 'dark' 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : 'bg-white border-gray-300 text-gray-900'
+                  }`}
                 />
               </div>
               
               <select
                 value={filterPriority}
                 onChange={(e) => setFilterPriority(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className={`px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors ${
+                  theme === 'dark' 
+                    ? 'bg-gray-700 border-gray-600 text-white' 
+                    : 'bg-white border-gray-300 text-gray-900'
+                }`}
               >
                 <option value="All">All Priorities</option>
                 <option value="High">High Priority</option>
@@ -179,7 +230,11 @@ const Dashboard = ({ user, token, onLogout }) => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className={`px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors ${
+                  theme === 'dark' 
+                    ? 'bg-gray-700 border-gray-600 text-white' 
+                    : 'bg-white border-gray-300 text-gray-900'
+                }`}
               >
                 <option value="All">All Tasks</option>
                 <option value="Pending">Pending</option>
@@ -208,8 +263,14 @@ const Dashboard = ({ user, token, onLogout }) => {
         ) : filteredTasks.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">📝</div>
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">No tasks found</h3>
-            <p className="text-gray-500">Create your first task to get started!</p>
+            <h3 className={`text-xl font-semibold mb-2 ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              No tasks found
+            </h3>
+            <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}>
+              Create your first task to get started!
+            </p>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
